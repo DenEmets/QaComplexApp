@@ -15,6 +15,7 @@ class TestStartPage:
     def start_page(self):
         driver = webdriver.Chrome(DRIVER_PATH)
         driver.get(BASE_URL)
+        driver.implicitly_wait(1)
         yield StartPage(driver)
         driver.close()
 
@@ -73,9 +74,9 @@ class TestStartPage:
         password_value = f"{random_str(6)}{random_num()}"
 
         # Sign Up as a user
-        start_page.sign_up(username_value, email_value, password_value)
+        hello_page = start_page.sign_up_and_verify(username_value, email_value, password_value)
         self.log.info("Signed Up as a user %s", username_value)
 
         # Verify success message
-        start_page.verify_success_sign_up(username_value)
+        hello_page.verify_success_sign_up(username_value)
         self.log.info("Hello message was verified")
